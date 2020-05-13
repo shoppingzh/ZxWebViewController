@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>app</title>
+    <style>
+        footer{
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 10px;
+            background-color: #f3f4f7;
+        }
+    </style>
+</head>
+<body>
+
+    <h3>弹出框</h3>
+
+    <button id="alertBtn">提示框</button>
+    <button id="confirmBtn">确认提示框</button>
+    <button id="promptBtn">输入提示框</button>
+    
+    <h3>新窗口</h3>
+    <button id="openLinkBtn">本页面打开</button>
+    <button id="newWindowBtn">新窗口打开</button>
+
+    <h3>错误处理</h3>
+    <button id="errorPageBtn">访问出错</button>
+
+
+    <footer>ZxWebViewController by xpzheng</footer>
+
+    <script src="aaa.js"></script>
+
+
+    <script>
+        document.querySelector('#alertBtn').addEventListener('click', function() {
+            alert('Hello, world!')
+        }, false)
+        document.querySelector('#confirmBtn').addEventListener('click', function() {
+            if (confirm('确认吗？')) {
+                alert('确认')
+            } else {
+                alert('取消')
+            }
+        }, false)
+        document.querySelector('#promptBtn').addEventListener('click', function() {
+            var name = prompt('请输入姓名：', "Jack")
+            alert('你好，' + name)
+        }, false)
+
+        document.querySelector('#openLinkBtn').addEventListener('click', function() {
+            location.href = 'https://www.github.com'
+        }, false)
+        document.querySelector('#newWindowBtn').addEventListener('click', function() {
+            window.open('https://www.github.com')
+        }, false)
+
+        document.querySelector('#errorPageBtn').addEventListener('click', function() {
+            location.href = 'https://www.google.com'
+        }, false)
+    </script>
+
+</body>
+</html>
