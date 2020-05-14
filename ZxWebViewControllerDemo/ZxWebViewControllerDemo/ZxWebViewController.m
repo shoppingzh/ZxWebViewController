@@ -8,7 +8,7 @@
 
 #import "ZxWebViewController.h"
 #import <Masonry.h>
-#import "WebViewUtil.h"
+#import "ZxWebViewUtil.h"
 #import "ZxNavigateBarView.h"
 
 @interface ZxWebViewController () <WKUIDelegate, WKNavigationDelegate, UIScrollViewDelegate>
@@ -35,13 +35,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    NSLog(@"WebView UI初始化");
     
     [self setupView];
     [self setupOptions];
-    
-    
     [self load:self.url];
 }
 
@@ -63,6 +59,15 @@
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
 }
 
+- (void)setShowNavigateBar:(bool)showNavigateBar {
+    _showNavigateBar = showNavigateBar;
+    self.navigateBarView.alpha = showNavigateBar ? 1 : 0;
+}
+
+- (void)setShowProgress:(bool)showProgress {
+    _showProgress = showProgress;
+    self.progressView.alpha = showProgress ? 1 : 0;
+}
 
 # pragma mark - 初始化
 
@@ -76,7 +81,6 @@
     // 调整子view的层级
     [self.view bringSubviewToFront:self.progressView];
     
-    
     [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11, *)) {
             make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop);
@@ -88,7 +92,6 @@
         make.left.mas_equalTo(self.view.mas_left);
         make.right.mas_equalTo(self.view.mas_right);
     }];
-    
     [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11, *)) {
             make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop);
@@ -117,6 +120,7 @@
 
 - (void) setupOptions {
     self.showProgress = YES;
+    self.showNavigateBar = YES;
 }
 
 - (WKWebView *)webView {
@@ -136,7 +140,7 @@
         [_webView addObserver:self forKeyPath:NSStringFromSelector(@selector(canGoForward)) options:NSKeyValueObservingOptionNew context:nil];
         
         // 注入cookie
-        WKUserScript *cookieScript = [[WKUserScript alloc] initWithSource:[WebViewUtil getCookieScript] injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
+        WKUserScript *cookieScript = [[WKUserScript alloc] initWithSource:[ZxWebViewUtil getCookieScript] injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
         [_webView.configuration.userContentController addUserScript:cookieScript];
     }
     return _webView;
@@ -164,9 +168,9 @@
     if (!_navigateBarView) {
         _navigateBarView = [[ZxNavigateBarView alloc] init];
         [_navigateBarView setHidden:YES];
+        
         [_navigateBarView.backView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userGoBack:)] ];
         [_navigateBarView.forwardView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userGoForward:)] ];
-        
     }
     return _navigateBarView;
 }
@@ -177,13 +181,6 @@
 
 - (IBAction)userGoForward:(id)sender {
     [self goForward];
-}
-
-# pragma mark - 参数设置
-
-- (void)setShowProgress:(bool)showProgress {
-    _showProgress = showProgress;
-    self.progressView.alpha = showProgress ? 1 : 0;
 }
 
 # pragma mark - WebView Navigation delegate (cookie同步/错误处理)
@@ -341,7 +338,6 @@
     [self.webView removeObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress))];
     [self.webView removeObserver:self forKeyPath:NSStringFromSelector(@selector(canGoBack))];
     [self.webView removeObserver:self forKeyPath:NSStringFromSelector(@selector(canGoForward))];
-    
 }
 
 

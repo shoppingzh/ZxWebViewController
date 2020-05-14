@@ -1,14 +1,14 @@
 //
-//  WebViewUtil.m
+//  ZxWebViewUtil.m
 //  ZxWebViewControllerDemo
 //
 //  Created by xpzheng on 2020/5/12.
 //  Copyright © 2020 xpzheng. All rights reserved.
 //
 
-#import "WebViewUtil.h"
+#import "ZxWebViewUtil.h"
 
-@implementation WebViewUtil
+@implementation ZxWebViewUtil
 
 + (NSString *) getCookieScript {
     NSMutableString *script = [NSMutableString string];
@@ -17,7 +17,7 @@
         if ([cookie.value rangeOfString:@"'"].location != NSNotFound) {
             continue;
         }
-        [script appendFormat:@"if (cookieNames.indexOf('%@') == -1) { document.cookie='%@'; };\n", cookie.name, [WebViewUtil getCookieInline:cookie]];
+        [script appendFormat:@"if (cookieNames.indexOf('%@') == -1) { document.cookie='%@'; };\n", cookie.name, [ZxWebViewUtil getCookieInline:cookie]];
     }
     return script;
 }

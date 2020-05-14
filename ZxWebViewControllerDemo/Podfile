@@ -7,6 +7,6 @@ target 'ZxWebViewControllerDemo' do
 
   # Pods for ZxWebViewControllerDemo
   pod 'Masonry'
-  pod 'WebViewJavascriptBridge'
+  # pod 'WebViewJavascriptBridge'
 
 end

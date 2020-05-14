@@ -1,5 +1,5 @@
 //
-//  WebViewUtil.h
+//  ZxWebViewUtil.h
 //  ZxWebViewControllerDemo
 //
 //  Created by xpzheng on 2020/5/12.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WebViewUtil : NSObject
+@interface ZxWebViewUtil : NSObject
 
 /** 获取当前cookie脚本 */
 + (NSString *) getCookieScript;

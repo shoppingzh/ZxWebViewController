@@ -13,7 +13,7 @@
 		216DDD13246A764F009D7FB3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 216DDD11246A764F009D7FB3 /* LaunchScreen.storyboard */; };
 		216DDD16246A764F009D7FB3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 216DDD15246A764F009D7FB3 /* main.m */; };
 		216DDD1E246A7783009D7FB3 /* ZxWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 216DDD1D246A7783009D7FB3 /* ZxWebViewController.m */; };
-		216DDD23246A8D42009D7FB3 /* WebViewUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 216DDD22246A8D42009D7FB3 /* WebViewUtil.m */; };
+		216DDD23246A8D42009D7FB3 /* ZxWebViewUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 216DDD22246A8D42009D7FB3 /* ZxWebViewUtil.m */; };
 		216DDD2A246B9293009D7FB3 /* HomeUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 216DDD28246B9293009D7FB3 /* HomeUI.m */; };
 		216DDD2B246B9293009D7FB3 /* HomeUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = 216DDD29246B9293009D7FB3 /* HomeUI.xib */; };
 		216DDD2E246B9FAD009D7FB3 /* ZxWebErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 216DDD2D246B9FAD009D7FB3 /* ZxWebErrorView.m */; };
@@ -34,8 +34,8 @@
 		216DDD15246A764F009D7FB3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		216DDD1C246A7783009D7FB3 /* ZxWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZxWebViewController.h; sourceTree = "<group>"; };
 		216DDD1D246A7783009D7FB3 /* ZxWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZxWebViewController.m; sourceTree = "<group>"; };
-		216DDD21246A8D42009D7FB3 /* WebViewUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewUtil.h; sourceTree = "<group>"; };
-		216DDD22246A8D42009D7FB3 /* WebViewUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewUtil.m; sourceTree = "<group>"; };
+		216DDD21246A8D42009D7FB3 /* ZxWebViewUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZxWebViewUtil.h; sourceTree = "<group>"; };
+		216DDD22246A8D42009D7FB3 /* ZxWebViewUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZxWebViewUtil.m; sourceTree = "<group>"; };
 		216DDD27246B9293009D7FB3 /* HomeUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeUI.h; sourceTree = "<group>"; };
 		216DDD28246B9293009D7FB3 /* HomeUI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeUI.m; sourceTree = "<group>"; };
 		216DDD29246B9293009D7FB3 /* HomeUI.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeUI.xib; sourceTree = "<group>"; };
@@ -43,6 +43,8 @@
 		216DDD2D246B9FAD009D7FB3 /* ZxWebErrorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZxWebErrorView.m; sourceTree = "<group>"; };
 		216DDD2F246BDB25009D7FB3 /* ZxNavigateBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZxNavigateBarView.h; sourceTree = "<group>"; };
 		216DDD30246BDB25009D7FB3 /* ZxNavigateBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZxNavigateBarView.m; sourceTree = "<group>"; };
+		21EA74FE246BFE7C0061C251 /* Masonry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Masonry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		21EA7502246BFEA40061C251 /* Masonry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Masonry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1A289EE52BD31417168B70A /* Pods-ZxWebViewControllerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZxWebViewControllerDemo.release.xcconfig"; path = "Target Support Files/Pods-ZxWebViewControllerDemo/Pods-ZxWebViewControllerDemo.release.xcconfig"; sourceTree = "<group>"; };
 		FE6C3BABAB23160A2155EE53 /* Pods-ZxWebViewControllerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZxWebViewControllerDemo.debug.xcconfig"; path = "Target Support Files/Pods-ZxWebViewControllerDemo/Pods-ZxWebViewControllerDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,8 +115,8 @@
 		216DDD20246A8D10009D7FB3 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				216DDD21246A8D42009D7FB3 /* WebViewUtil.h */,
-				216DDD22246A8D42009D7FB3 /* WebViewUtil.m */,
+				216DDD21246A8D42009D7FB3 /* ZxWebViewUtil.h */,
+				216DDD22246A8D42009D7FB3 /* ZxWebViewUtil.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -122,6 +124,8 @@
 		9D6FA68DFA84AE44B61BC64A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				21EA7502246BFEA40061C251 /* Masonry.framework */,
+				21EA74FE246BFE7C0061C251 /* Masonry.framework */,
 				1B72C369F9E441A06D37B939 /* Pods_ZxWebViewControllerDemo.framework */,
 			);
 			name = Frameworks;
@@ -255,7 +259,7 @@
 				216DDD1E246A7783009D7FB3 /* ZxWebViewController.m in Sources */,
 				216DDD05246A764D009D7FB3 /* AppDelegate.m in Sources */,
 				216DDD2A246B9293009D7FB3 /* HomeUI.m in Sources */,
-				216DDD23246A8D42009D7FB3 /* WebViewUtil.m in Sources */,
+				216DDD23246A8D42009D7FB3 /* ZxWebViewUtil.m in Sources */,
 				216DDD16246A764F009D7FB3 /* main.m in Sources */,
 				216DDD08246A764D009D7FB3 /* SceneDelegate.m in Sources */,
 			);

@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, assign) bool showProgress;
+@property (nonatomic, assign) bool showNavigateBar;
 @property (nonatomic, strong) UIView *errorView;
 
 - (instancetype) initWithUrl: (NSString *) url;
