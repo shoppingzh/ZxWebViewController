@@ -21,8 +21,11 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.backgroundColor = [UIColor colorWithRed:.93 green:.94 blue:.95 alpha:1];
-        
+        if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor systemGray6Color];
+        } else {
+            self.backgroundColor = [UIColor lightGrayColor];
+        }
         [self addSubview:self.backView];
         [self addSubview:self.forwardView];
         
@@ -47,36 +50,45 @@
 
 - (void)setBackEnabled:(bool)backEnabled {
     _backEnabled = backEnabled;
-    ((UILabel*)self.backView).textColor = [UIColor colorWithRed:.2 green:.2 blue:.2 alpha: backEnabled ? 1 : .5];
-    self.backView.userInteractionEnabled = backEnabled;
+    [((UIButton*)self.backView) setEnabled:backEnabled];
     [self setHidden:!_backEnabled && !_forwardEnabled];
 }
 
 - (void)setForwardEnabled:(bool)forwardEnabled {
     _forwardEnabled = forwardEnabled;
-    ((UILabel*) self.forwardView).textColor = [UIColor colorWithRed:.2 green:.2 blue:.2 alpha: forwardEnabled ? 1 : .5];
-    self.forwardView.userInteractionEnabled = forwardEnabled;
+    [((UIButton*)self.forwardView) setEnabled:forwardEnabled];
     [self setHidden:!_backEnabled && !_forwardEnabled];
 }
 
 - (UIView *)backView {
     if (!_backView) {
-        UILabel *label = [[UILabel alloc] init];
-        label.font = [UIFont systemFontOfSize:12];
-        label.text = @"后退";
-        _backView = label;
+        _backView = [self operateBtn: @"\U0000ea95"];
     }
     return _backView;
 }
 
 - (UIView *)forwardView {
     if (!_forwardView) {
-        UILabel *label = [[UILabel alloc] init];
-        label.font = [UIFont systemFontOfSize:12];
-        label.text = @"前进";
-        _forwardView = label;
+        _forwardView = [self operateBtn:@"\U0000e6b7"];
     }
     return _forwardView;
+}
+
+- (UIButton*) operateBtn: (NSString*) title {
+    UIButton *btn = [[UIButton alloc] init];
+    [btn setTitle:title forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont fontWithName:@"iconfont" size:16];
+    [btn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+    return btn;
+}
+
+#pragma mark - 覆写setHidden
+- (void)setHidden:(BOOL)hidden {
+    // 隐藏: 随时可隐藏 显示: 只有后退/前进按钮其中一个可用时才可以显示
+    if (hidden || self.backEnabled || self.forwardEnabled) {
+        [super setHidden:hidden];
+    }
 }
 
 @end

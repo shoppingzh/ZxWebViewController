@@ -18,6 +18,7 @@
 		216DDD2B246B9293009D7FB3 /* HomeUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = 216DDD29246B9293009D7FB3 /* HomeUI.xib */; };
 		216DDD2E246B9FAD009D7FB3 /* ZxWebErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 216DDD2D246B9FAD009D7FB3 /* ZxWebErrorView.m */; };
 		216DDD31246BDB25009D7FB3 /* ZxNavigateBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 216DDD30246BDB25009D7FB3 /* ZxNavigateBarView.m */; };
+		21EA752C246D079B0061C251 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21EA752B246D079B0061C251 /* iconfont.ttf */; };
 		B04C6F2DBDE44D75C187764E /* Pods_ZxWebViewControllerDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B72C369F9E441A06D37B939 /* Pods_ZxWebViewControllerDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		216DDD30246BDB25009D7FB3 /* ZxNavigateBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZxNavigateBarView.m; sourceTree = "<group>"; };
 		21EA74FE246BFE7C0061C251 /* Masonry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Masonry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		21EA7502246BFEA40061C251 /* Masonry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Masonry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		21EA752B246D079B0061C251 /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
 		C1A289EE52BD31417168B70A /* Pods-ZxWebViewControllerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZxWebViewControllerDemo.release.xcconfig"; path = "Target Support Files/Pods-ZxWebViewControllerDemo/Pods-ZxWebViewControllerDemo.release.xcconfig"; sourceTree = "<group>"; };
 		FE6C3BABAB23160A2155EE53 /* Pods-ZxWebViewControllerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZxWebViewControllerDemo.debug.xcconfig"; path = "Target Support Files/Pods-ZxWebViewControllerDemo/Pods-ZxWebViewControllerDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,6 +84,7 @@
 		216DDD02246A764D009D7FB3 /* ZxWebViewControllerDemo */ = {
 			isa = PBXGroup;
 			children = (
+				21EA752A246D07860061C251 /* font */,
 				216DDD20246A8D10009D7FB3 /* Utils */,
 				216DDD1F246A8AC7009D7FB3 /* Views */,
 				216DDD03246A764D009D7FB3 /* AppDelegate.h */,
@@ -119,6 +122,14 @@
 				216DDD22246A8D42009D7FB3 /* ZxWebViewUtil.m */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		21EA752A246D07860061C251 /* font */ = {
+			isa = PBXGroup;
+			children = (
+				21EA752B246D079B0061C251 /* iconfont.ttf */,
+			);
+			path = font;
 			sourceTree = "<group>";
 		};
 		9D6FA68DFA84AE44B61BC64A /* Frameworks */ = {
@@ -199,6 +210,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21EA752C246D079B0061C251 /* iconfont.ttf in Resources */,
 				216DDD2B246B9293009D7FB3 /* HomeUI.xib in Resources */,
 				216DDD13246A764F009D7FB3 /* LaunchScreen.storyboard in Resources */,
 				216DDD10246A764F009D7FB3 /* Assets.xcassets in Resources */,

@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) UILabel *errorLabel;
 @property (nonatomic, strong) UILabel *tipsLabel;
+@property (nonatomic, strong) UIButton *closeBtn;
 
 @end
 
@@ -30,6 +31,7 @@
         [self addSubview:self.errorImageView];
         [self addSubview:self.errorLabel];
         [self addSubview:self.tipsLabel];
+        [self addSubview:self.closeBtn];
         
         self.errorCode = -1;
     }
@@ -55,6 +57,10 @@
     [self.tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.errorImageView.mas_centerX);
         make.top.equalTo(self.errorLabel.mas_bottom).mas_offset(10);
+    }];
+    [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.errorImageView.mas_centerX);
+        make.top.equalTo(self.tipsLabel.mas_bottom).mas_offset(10);
     }];
 }
 
@@ -83,6 +89,27 @@
     }
     return _tipsLabel;
 }
+
+- (UIButton *)closeBtn {
+    if (!_closeBtn) {
+        _closeBtn = [[UIButton alloc] init];
+        [_closeBtn setTitle:@"返回上一层" forState:UIControlStateNormal];
+        [_closeBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
+        if (@available(iOS 13.0, *)) {
+            [_closeBtn setTitleColor:[UIColor linkColor] forState:UIControlStateNormal];
+        } else {
+            [_closeBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        }
+        [_closeBtn addTarget:self action:@selector(hideSelf:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _closeBtn;
+}
+
+- (IBAction)hideSelf:(id)sender {
+    [self setHidden:YES];
+}
+
+# pragma mark - APIs
 
 - (void)setErrorCode:(NSInteger)errorCode {
     _errorCode = errorCode;

@@ -13,6 +13,7 @@
 
 @interface ZxWebViewController () <WKUIDelegate, WKNavigationDelegate, UIScrollViewDelegate>
 
+@property (nonatomic, strong) UILabel *providerView;
 @property (nonatomic, strong) UIProgressView *progressView;
 @property (nonatomic, strong) ZxNavigateBarView *navigateBarView;
 
@@ -72,15 +73,29 @@
 # pragma mark - 初始化
 
 - (void) setupView {
-    self.view.backgroundColor = [UIColor whiteColor];
     
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor systemGray6Color];
+    } else {
+        self.view.backgroundColor =  [UIColor lightGrayColor];
+    }
+    
+    [self.view addSubview:self.providerView];
     [self.view addSubview:self.webView];
     [self.view addSubview:self.progressView];
     [self.view addSubview:self.navigateBarView];
     [self.view addSubview:self.errorView];
-    // 调整子view的层级
+    // 进度条需在最顶层，无论何种情况都可以展示
     [self.view bringSubviewToFront:self.progressView];
     
+    [self.providerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view.mas_centerX);
+        if (@available(iOS 11.0, *)) {
+            make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(15);
+        } else {
+            make.top.equalTo(self.view.mas_top).offset(15);
+        }
+    }];
     [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11, *)) {
             make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop);
@@ -98,7 +113,6 @@
         } else {
             make.top.mas_equalTo(self.view.mas_top);
         }
-        
         make.height.mas_equalTo(1);
         make.left.equalTo(self.view.mas_left);
         make.right.equalTo(self.view.mas_right);
@@ -126,12 +140,16 @@
 - (WKWebView *)webView {
     if (!_webView) {
         WKWebViewConfiguration *conf = [[WKWebViewConfiguration alloc] init];
+        // 允许内嵌媒体播放
         conf.allowsInlineMediaPlayback = YES;
+        // 允许画中画播放
+        conf.allowsPictureInPictureMediaPlayback = YES;
         _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:conf];
         
         _webView.UIDelegate = self;
         _webView.navigationDelegate = self;
         _webView.scrollView.delegate = self; // 监听webView的滚动事件
+        
         
         // 监听标题、进度、前进、后退
         [_webView addObserver:self forKeyPath:NSStringFromSelector(@selector(title)) options:NSKeyValueObservingOptionNew context:nil];
@@ -144,6 +162,19 @@
         [_webView.configuration.userContentController addUserScript:cookieScript];
     }
     return _webView;
+}
+
+- (UILabel *)providerView {
+    if (!_providerView) {
+        _providerView = [[UILabel alloc] init];
+        if (@available(iOS 13.0, *)) {
+            _providerView.textColor = [UIColor systemGray2Color];
+        } else {
+            _providerView.textColor = [UIColor darkGrayColor];
+        }
+        _providerView.font = [UIFont systemFontOfSize:14];
+    }
+    return _providerView;
 }
 
 - (UIProgressView *)progressView {
@@ -167,7 +198,7 @@
 - (ZxNavigateBarView *)navigateBarView {
     if (!_navigateBarView) {
         _navigateBarView = [[ZxNavigateBarView alloc] init];
-        [_navigateBarView setHidden:YES];
+        _navigateBarView.backgroundColor = self.view.backgroundColor;
         
         [_navigateBarView.backView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userGoBack:)] ];
         [_navigateBarView.forwardView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userGoForward:)] ];
@@ -185,9 +216,13 @@
 
 # pragma mark - WebView Navigation delegate (cookie同步/错误处理)
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    bool done = [self handleOtherSchemeRequest: navigationAction];
+    if (done) {
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
+    }
     
     [self.progressView setHidden:NO];
-    
     // 同步cookie(可能来自于native，但绝不是来自于WKWebView，因为WkWebView有自己的cookie存储)
     NSMutableURLRequest *request;
     if ([navigationAction.request isKindOfClass:[NSMutableURLRequest class]]) {
@@ -198,16 +233,34 @@
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:request.URL];
     request.allHTTPHeaderFields = [NSHTTPCookie requestHeaderFieldsWithCookies:cookies];
     
+    [self.providerView setText:[NSString stringWithFormat:@"网页提供方：%@", navigationAction.request.URL.host]];
+    
     decisionHandler(WKNavigationActionPolicyAllow);
 }
 
+// 处理非HTTP/HTTPS协议的请求(如打电话、发邮件等)，如果可处理将返回YES
+- (bool) handleOtherSchemeRequest: (WKNavigationAction*) navigationAction {
+    NSURL *url  = navigationAction.request.URL;
+    NSString *scheme = url.scheme;
+    
+    bool systemScheme = [@[@"tel", @"mailto", @"sms"] containsObject:scheme];
+    // 系统协议(打电话/发邮件/发短信)
+    if (systemScheme) {
+        UIApplication *app = [UIApplication sharedApplication];
+        if ([app canOpenURL:url]) {
+            [app openURL:url];
+        }
+        return YES;
+    }
+    return NO;
+}
+
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    NSLog(@"错误：didFailNavigation");
+    // 目前还不知道这个回调的准确时机
 }
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     [self didLoadError:error];
-    NSLog(@"错误：didFailProvisionalNavigation");
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
@@ -223,13 +276,11 @@
 
 // 加载发生错误
 - (void) didLoadError: (NSError *) error {
-    NSLog(@"%@", error);
     if ([error.domain isEqualToString: NSURLErrorDomain]) {
         NSDictionary *userInfo = error.userInfo;
         self.errorUrl = userInfo[NSURLErrorFailingURLStringErrorKey];
     }
-    NSLog(@"加载过程发生错误：%@", error.userInfo);
-    NSLog(@"当前错误URL：%@", self.errorUrl);
+    NSLog(@"加载过程发生错误：%@", error);
     
     [self.progressView setHidden:YES];
     if ([self.errorView isKindOfClass:[ZxWebErrorView class]]) {
